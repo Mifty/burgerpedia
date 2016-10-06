@@ -1,0 +1,115 @@
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <h1>Burgerpedia - We've Got the Burgers</h1>
+        <p>Burgerpedia is an online directory of hamburger descriptions. It was created as a tutorial on how to integrate Laravel with AngularJS and Bootstrap. Laravel is used for the backend that supplies a REST API. AngularJS is used as the client that consumes the REST API. Bootstrap is used to make things pretty :)  </p>
+        <p><a class="btn btn-primary btn-lg" href="http://miftyisbored.com/burgerpedia-a-complete-laravel-5-and-angularjs-tutorial-with-bootstrap-to-make-it-pretty/" role="button">View the tutorial &raquo;</a></p>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-md-12">
+          <div class="container">
+			<div class="row" >
+				<div class="text-right"><button type="submit" class="btn btn-success btn-lg" ng-click="showModal()">Add A New Burger <i class="glyphicon glyphicon-plus"></i></button></div>
+				<div class="col-md-12">
+					<h1>Hamburgers</h1>
+					<p>Below are all the hamburgers at BurgerPedia. Click on a burger to view its descriptions or click on the add button to add a burger to our burger encyclopdia.</p>
+					<form action="#" method="get">
+						<div class="input-group">
+							<!-- USE ANGULAR AJAX CALLS TO SEARCH BY FILTERING -->
+							<input class="form-control" id="system-search" name="q" placeholder="Burger filter.." ng-model="searchText">
+							<span class="input-group-btn">
+								<button type="submit" class="btn btn-primary" disabled="disabled"><i class="glyphicon glyphicon-search"></i></button>
+							</span>
+						</div>
+					</form>
+					
+				</div>
+				<div class="col-md-12">
+					<table class="table table-list-search table-striped">
+						<thead>
+							<tr>
+								<th>Hamburger ID</th>
+								<th>Hamburger Name</th>
+								<th>Author</th>
+								<th>Added On</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody >
+							<tr ng-repeat="hamburger in hamburgers | filter:searchText">
+								<td>{{  hamburger.id }}</td>
+								<td><a href="#/hamburger/{{hamburger.id}}">{{  hamburger.name }}</a></td>
+								<td>{{  hamburger.author }}</td>
+								<td>{{  hamburger.created_at }}</td>
+								<td> 
+									<a class="btn btn-info btn-detail" ng-click="loadBurgerPage(hamburger.id)">View Burger Descriptions</a>
+								</td>
+							</tr>
+						</tbody>
+					</table> 
+					<!-- End of Table-to-load-the-data Part -->					
+				</div>
+				<div class="text-right"><button class="btn btn-primary" ng-disabled="currentPage >= lastPage" ng-click="loadMoreBurgers()" id="loadMoreButton" >{{loadMoreText}}</button></div>
+				
+				<!-- Modal (Pop up when detail button clicked) -->
+				<div class="modal fade" id="addBurgerModal" tabindex="-1" role="dialog" aria-labelledby="addBurgerModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+								<h4 class="modal-title" id="addBurgerModalLabel">Add A New Burger to the Database</h4>
+							</div>
+							<div class="modal-body">
+								<form name="frmAddBurger" class="form-horizontal" novalidate="">
+
+									<div class="form-group error">
+										<label for="hamburgerName" class="col-sm-3 control-label">Hamburger Name</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control has-error" id="name" name="name" placeholder="hamburger Name" value="" 
+											ng-model="hamburger.name" ng-required="true">
+											<span class="help-inline" 
+											ng-show="frmAddBurger.name.$invalid && frmAddBurger.name.$touched">We can't let you continue without a Hamburger Name</span>
+										</div>
+									</div>
+									<div class="form-group error">
+										<label for="hamburgerAuthor" class="col-sm-3 control-label">Author</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control has-error" id="author" name="author" placeholder="Author" value="" 
+											ng-model="hamburger.author" ng-required="true">
+											<span class="help-inline" 
+											ng-show="frmAddBurger.author.$invalid && frmAddBurger.author.$touched">You need to give us an Author's Name</span>
+										</div>
+									</div>
+									<div class="form-group error">
+										<label for="hamburgerAuthor" class="col-sm-3 control-label">Hamburger Overview</label>
+										<div class="col-sm-9">
+											<textarea class="form-control" rows="3" class="form-control has-error" id="overview" name="overview" placeholder="hamburger Overview" value="" ng-model="hamburger.overview" ng-required="true" ></textarea>
+											<span class="help-inline" 
+											ng-show="frmAddBurger.overview.$invalid && frmAddBurger.overview.$touched">Dude, give us an overview of this hamburger</span>
+										</div>										
+									</div>
+
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" id="btn-save" ng-click="addBurger()" ng-disabled="frmAddBurger.$invalid">Add Hamburger </button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		   </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <footer>
+        <p>&copy; 2016 by Mifty, You are free to use this code as you like</p>
+      </footer>
+    </div> <!-- /container -->

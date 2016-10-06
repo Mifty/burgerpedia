@@ -1,0 +1,91 @@
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <h1>{{hamburger_name}}</h1>
+		<small>added by {{hamburger_author}} on {{hamburger_created_date}}</small>
+        <p>{{hamburger_overview}}</p>
+        <p><a class="btn btn-success btn-lg" ng-click="showModal('add',0)" role="button">Add a Description</a> <a class="btn btn-primary btn-lg" href="#/" role="button">Back to the Burger Directory</a> <a class="btn btn-primary btn-lg" href="http://miftyisbored.com/burgerpedia-a-complete-laravel-5-and-angularjs-tutorial-with-bootstrap-to-make-it-pretty/" role="button">View the tutorial &raquo;</a></p>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-md-12">
+          <div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="row" ng-repeat="description in descriptions | filter:searchText">
+						<div class="col-sm-12 burger-description-block">
+							<div class="burger-description-block-title">{{ description.title}}</div>
+							<p class="burger-description-block-meta">Added by {{ description.author}} on {{ description.description}}</p>
+							<p class="burger-description-block-description">{{ description.description}}</p>
+							<hr />
+							<button class="btn btn-sm btn-primary" ng-click="showModal('edit',description.id)" id="loadMoreButton" >Edit Description</button> <button class="btn btn-sm btn-danger" ng-click="deleteDescription(description.id)" id="loadMoreButton" >Delete Description</button>
+							
+						</div>
+						<hr>
+					</div>
+					<hr>
+					<div class="text-center"><button class="btn btn-success" ng-click="showModal('add',0)" id="loadMoreButton" >Add A Description</button> <button class="btn btn-primary" ng-disabled="currentPage >= lastPage" ng-click="loadMoreDescriptions()" id="loadMoreButton" >{{loadMoreText}}</button></div>
+				</div>
+			</div>
+		   </div>
+        </div>
+      </div>
+	  
+	  <!-- Modal (Pop up when detail button clicked) -->
+				<div class="modal fade" id="addDescriptionModal" tabindex="-1" role="dialog" aria-labelledby="addDescriptionModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+								<h4 class="modal-title" id="addDescriptionModalLabel">{{modal_title}}</h4>
+							</div>
+							<div class="modal-body">
+								<form name="frmAddDescription" class="form-horizontal" novalidate="">
+
+									
+									<div class="form-group error">
+										<label for="title" class="col-sm-3 control-label">Description Title</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control has-error" id="title" name="title" placeholder="Title" value="description.title" 
+											ng-model="description.title" ng-required="true">
+											<span class="help-inline" 
+											ng-show="frmAddDescription.title.$invalid && frmAddDescription.title.$touched">A Title for your description is needed</span>
+										</div>
+									</div>
+									<div class="form-group error">
+										<label for="description" class="col-sm-3 control-label">Description</label>
+										<div class="col-sm-9">
+											<textarea class="form-control" rows="3" class="form-control has-error" id="description" name="description" placeholder="hamburger Description" value="" ng-model="description.description" ng-required="true" value="description.description" ></textarea>
+											<span class="help-inline" 
+											ng-show="frmAddDescription.description.$invalid && frmAddDescription.description.$touched">Dude, give us your description of this hamburger</span>
+										</div>										
+									</div>
+									<div class="form-group error">
+										<label for="author" class="col-sm-3 control-label">Author</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control has-error" id="author" name="author" placeholder="Author" value="description.author" 
+											ng-model="description.author" ng-required="true">
+											<span class="help-inline" 
+											ng-show="frmAddDescription.author.$invalid && frmAddDescription.author.$touched">Your Author Name is needed</span>
+										</div>
+									</div>
+
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" id="btn-save" ng-click="addDescription(description.id)" ng-disabled="frmAddDescription.$invalid">{{ modal_button }}</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+      <hr>
+
+      <footer>
+        <p>&copy; <?= date('Y') ?> by Mifty, You are free to use this code as you like</p>
+      </footer>
+    </div> <!-- /container -->
